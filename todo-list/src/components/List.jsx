@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState} from "react";
 
 export default function List() {
 
   const [task, setTask] = useState("");
-  const [tasks, setTasks] = useState([]);
-  const[about,setAbout]=useState([])
+  const [tasks, setTasks] = useState([
+  { title: "Buy milk", about: "From the nearby store" },
+  { title: "Study React", about: "Focus on useState & props" }
+]);
+  
   const [showAbout,setShowAbout]= useState(false);
   const [activeIndex,setActiveIndex]=useState(null);
 
@@ -24,7 +27,12 @@ export default function List() {
 
     if (!task.trim()) return;
 
-    setTasks(prev => [...prev, task]);
+    setTasks(prev => {
+         const copy = [...prev,
+          { title:task, about: "" }];
+        
+         return copy;
+        })
     setTask("");
   }
 
@@ -49,12 +57,12 @@ export default function List() {
       </form>
 
       <ul className="h-10">
-        {tasks.map((task, index) => (
+        {tasks.map((tasks, index) => (
           <li
             key={index}
             className="flex justify-between items-center border px-2 py-1 m-3 "
           >
-            <span className="text-xl">{task}</span>
+            <span className="text-xl">{tasks.title}</span>
             <div className=" flex gap-2">
               <button
               onClick={() => deleteTask(index)}
@@ -77,11 +85,11 @@ export default function List() {
         {showAbout && tasks[activeIndex] && activeIndex !== null && (
           <div className="fixed right-0 top-16 h-full w-200 bg-white shadow-lg p-4">
       <h2 className="text-lg font-semibold">
-  Notes for: {tasks[activeIndex]}
+  Notes for: {tasks[activeIndex].title}
 </h2>
       <textarea
       placeholder="Write notes, ideas, links, or reminders related to this todo…"
-      spellCheck="false"
+      spellCheck={false}
         className="
         leading-relaxed 
         text-xl
@@ -94,12 +102,12 @@ export default function List() {
         resize-none
         font-mono
         "
-        value={about[activeIndex]}
-        onChange={(e) => {
-        setAbout(prev => {
-          const copy = [...prev];
-          copy[activeIndex] = e.target.value;
-          return copy;
+         value={tasks[activeIndex]?.about || ""}
+         onChange={(e) => {
+         setTasks(prev => {
+         const copy = [...prev];
+         copy[activeIndex] = { ...copy[activeIndex], about: e.target.value };
+         return copy;
         });
        }}
       />
