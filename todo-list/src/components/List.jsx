@@ -3,10 +3,7 @@ import { useState} from "react";
 export default function List() {
 
   const [task, setTask] = useState("");
-  const [tasks, setTasks] = useState([
-  { title: "Buy milk", about: "From the nearby store" },
-  { title: "Study React", about: "Focus on useState & props" }
-]);
+  const [tasks, setTasks] = useState([]);
   
   const [showAbout,setShowAbout]= useState(false);
   const [activeIndex,setActiveIndex]=useState(null);
@@ -41,9 +38,9 @@ export default function List() {
   }
 
   return (
-    <div className="flex flex-col  p-4 max-w-md ">
+    <div className="flex flex-col  p-4  max-w-xl ">
       <div>
-      <form className="flex  gap-2 mb-4" onSubmit={handleSubmit}>
+      <form className="flex font-mono gap-2 mb-4" onSubmit={handleSubmit}>
         <input
           type="text"
           value={task}
@@ -56,11 +53,12 @@ export default function List() {
         </button>
       </form>
 
-      <ul className="h-10">
-        {tasks.map((tasks, index) => (
+      <ul className="h-10 font-mono ">
+        {
+        tasks.map((tasks, index) => (
           <li
             key={index}
-            className="flex justify-between items-center border px-2 py-1 m-3 "
+            className="flex justify-between items-center border rounded-xl border-r-2 px-2 py-1 m-3 "
           >
             <span className="text-xl">{tasks.title}</span>
             <div className=" flex gap-2">
@@ -78,15 +76,20 @@ export default function List() {
             </button>
             </div>
           </li>
+          
         ))}
       </ul>
+      {tasks.length === 0 && <img className="h-80 pl-26" src="./snorlex.png" alt="empty todo" />}
       </div>
+
+      
+        
       
         {showAbout && tasks[activeIndex] && activeIndex !== null && (
           <div className="fixed right-0 top-16 h-full w-200 bg-white shadow-lg p-4">
-      <h2 className="text-lg font-semibold">
-  Notes for: {tasks[activeIndex].title}
-</h2>
+          <h2 className="text-lg font-semibold">
+           Notes for : {tasks[activeIndex].title}
+          </h2>
       <textarea
       placeholder="Write notes, ideas, links, or reminders related to this todo…"
       spellCheck={false}
