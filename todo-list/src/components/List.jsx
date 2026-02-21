@@ -25,10 +25,10 @@ export default function List() {
     if (!task.trim()) return;
 
     setTasks(prev => {
-         const copy = [...prev,
-          { title:task, about: "" }];
+         const prevlist = [...prev,
+          { title:task, about: "" ,done:false}];
         
-         return copy;
+         return prevlist;
         })
     setTask("");
   }
@@ -38,7 +38,7 @@ export default function List() {
   }
 
   return (
-    <div className="flex flex-col  p-4  max-w-xl ">
+    <div className="flex flex-col p-4 max-w-xl ">
       <div>
       <form className="flex font-mono gap-2 mb-4" onSubmit={handleSubmit}>
         <input
@@ -55,12 +55,26 @@ export default function List() {
 
       <ul className="h-10 font-mono ">
         {
-        tasks.map((tasks, index) => (
+        tasks.map((task,index) => (
           <li
             key={index}
             className="flex justify-between items-center border rounded-xl border-r-2 px-2 py-1 m-3 "
           >
-            <span className="text-xl">{tasks.title}</span>
+           <input 
+            type="checkbox" 
+            checked={task.done}
+            onChange={(e)=>
+              {setTasks(prev=>{
+                const prevlist=[...prev];
+                prevlist[index].done=e.target.checked
+                return prevlist;
+              }
+
+           )}} />
+
+
+            <span className={`text-xl ${task.done ? "line-through text-gray-500" : ""}`}>{task.title}</span>
+
             <div className=" flex gap-2">
               <button
               onClick={() => deleteTask(index)}
@@ -82,9 +96,6 @@ export default function List() {
       {tasks.length === 0 && <img className="h-80 pl-26" src="./snorlex.png" alt="empty todo" />}
       </div>
 
-      
-        
-      
         {showAbout && tasks[activeIndex] && activeIndex !== null && (
           <div className="fixed right-0 top-16 h-full w-200 bg-white shadow-lg p-4">
           <h2 className="text-lg font-semibold">
@@ -93,8 +104,8 @@ export default function List() {
       <textarea
       placeholder="Write notes, ideas, links, or reminders related to this todo…"
       spellCheck={false}
-        className="
-        leading-relaxed 
+        className={
+        `leading-relaxed 
         text-xl
         spellCheck={false} 
         w-full
@@ -104,13 +115,15 @@ export default function List() {
         outline-none
         resize-none
         font-mono
-        "
+        ${tasks[activeIndex].done?"text-gray-400":""}`}
+        
+        
          value={tasks[activeIndex]?.about || ""}
          onChange={(e) => {
          setTasks(prev => {
-         const copy = [...prev];
-         copy[activeIndex] = { ...copy[activeIndex], about: e.target.value };
-         return copy;
+         const prevlist = [...prev];
+         prevlist[activeIndex] = { ...prevlist[activeIndex], about: e.target.value };
+         return prevlist;
         });
        }}
       />
