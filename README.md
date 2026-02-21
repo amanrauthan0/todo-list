@@ -13,8 +13,6 @@ This project goes beyond basic todos by allowing notes, checklists, and persiste
 
 📌 Mark tasks as completed with visual feedback
 
-💾 Data persistence using localStorage
-
 🎨 Clean and responsive UI with Tailwind CSS
 
 🧠 What I Learned
@@ -30,8 +28,6 @@ Conditional rendering
 Controlled inputs and textareas
 
 Handling checkboxes properly
-
-Saving and loading data from localStorage
 
 Structuring components for scalability
 
