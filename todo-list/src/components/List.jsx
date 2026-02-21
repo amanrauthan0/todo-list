@@ -26,7 +26,7 @@ export default function List() {
 
     setTasks(prev => {
          const prevlist = [...prev,
-          { title:task, about: "" ,done:false}];
+          { todo:task, about: "" ,done:false}];
         
          return prevlist;
         })
@@ -73,7 +73,7 @@ export default function List() {
            )}} />
 
 
-            <span className={`text-xl ${task.done ? "line-through text-gray-500" : ""}`}>{task.title}</span>
+            <span className={`text-xl ${task.done ? "line-through text-gray-500" : ""}`}>{task.todo}</span>
 
             <div className=" flex gap-2">
               <button
@@ -99,7 +99,7 @@ export default function List() {
         {showAbout && tasks[activeIndex] && activeIndex !== null && (
           <div className="fixed right-0 top-16 h-full w-200 bg-white shadow-lg p-4">
           <h2 className="text-lg font-semibold">
-           Notes for : {tasks[activeIndex].title}
+           Notes for : {tasks[activeIndex].todo}
           </h2>
       <textarea
       placeholder="Write notes, ideas, links, or reminders related to this todo…"
